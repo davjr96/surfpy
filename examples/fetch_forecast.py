@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 
 import surfpy
+import sys
 
 if __name__=='__main__':
-    ri_wave_location = surfpy.Location(41.4, -71.45, altitude=30.0, name='Block Island Sound')
-    ri_wave_location.depth = 30.0
-    ri_wave_location.angle = 145.0
-    ri_wave_location.slope = 0.02
-    ec_wave_model = surfpy.wavemodel.us_east_coast_wave_model()
+    ri_wave_location = surfpy.Location(37.55, -122.5, altitude=3.5, name='Linda Mar')
+    ri_wave_location.depth = 3.5
+    ri_wave_location.angle = 330.0
+    ri_wave_location.slope = 0.03
+    ec_wave_model = surfpy.wavemodel.us_west_coast_wave_model()
 
     print('Fetching WW3 Wave Data')
     if ec_wave_model.fetch_grib_datas(ri_wave_location, 0, 180):
@@ -17,7 +18,7 @@ if __name__=='__main__':
         sys.exit(1)
 
     print('Fetching GFS Weather Data')
-    ri_wind_location = surfpy.Location(41.6, -71.5, altitude=10.0, name='Narragansett Pier')
+    ri_wind_location = surfpy.Location(37.55, -122.503051, altitude=3.5, name='Linda Mar')
     gfs_model = surfpy.weathermodel.hourly_gfs_model()
     if gfs_model.fetch_grib_datas(ri_wind_location, 0, 180):
         gfs_model.fill_buoy_data(data)
@@ -39,7 +40,7 @@ if __name__=='__main__':
 
     plt.plot(times, maxs, c='green')
     plt.plot(times, mins, c='blue')
-    plt.plot(times, summary, c='red')
+    #plt.plot(times, summary, c='red')
     plt.xlabel('Hours')
     plt.ylabel('Breaking Wave Height (ft)')
     plt.grid(True)
